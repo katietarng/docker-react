@@ -1,0 +1,11 @@
+# need to have superuser permissions to use docker
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t ktarng/docker-react -f Dockerfile.dev .
+
+# script will run our tests and save it in a coverage file
+script:
+  - docker run -e CI=true ktarng/docker-react npm run test
