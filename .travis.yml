@@ -9,3 +9,15 @@ before_install:
 # script will run our tests and save it in a coverage file
 script:
   - docker run -e CI=true ktarng/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker-react" # app name
+  env: "DockerReact-env" # the actual app in elb 
+  bucket_name: "elasticbeanstalk-us-east-2-793754280577"
+  bucket_path: "docker-react" # default path will be app name until a deploy actually occurs
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
