@@ -1,0 +1,26 @@
+version: '3'
+services:
+    web:
+      # need this line specifically b/c create-react-app
+      # has a bug with docker-compose where it'll cause
+      # the app to exit
+      stdin_open: true
+      build:
+          # where do you want all the files/folders
+          # to come from in the current working directory
+          # where the dockerfile lives
+          context: .
+          dockerfile: Dockerfile.dev
+      ports:
+          - "3000:3000"
+      volumes:
+          - /app/node_modules
+          - .:/app
+    tests:
+      build:
+        context: .
+        dockerfile: Dockerfile.dev
+      volumes:
+        - /app/node_modules
+        - .:/app
+      command: ["npm", "run", "test"]
